@@ -1,0 +1,51 @@
+#apiVersion: v1
+#kind: Namespace
+#metadata:
+#  name: spring-boot-web
+#  labels:
+#    name: spring-boot-web
+#
+#---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: spring-boot-web
+  name: spring-boot-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spring-boot-web
+  template:
+    metadata:
+      labels:
+        app: spring-boot-web
+    spec:
+      containers:
+      - image: spring-boot-web
+        imagePullPolicy: IfNotPresent
+        name: spring-boot-web
+        ports:
+          - containerPort: 8080
+            protocol: TCP
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: spring-boot-web
+  name: spring-boot-web
+  namespace: default
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: spring-boot-web
+
+
+

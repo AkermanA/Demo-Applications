@@ -1,0 +1,5 @@
+kubectl config set-context spring-boot-web --namespace=spring-boot-web --cluster=spring-boot-web --user=spring-boot-web
+
+kubectl config use-context spring-boot-web
+
+kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
